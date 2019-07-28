@@ -1,0 +1,11 @@
+export(bgpart)
+export(groupNet)
+export(groupDist)
+export(infomapConsole)
+export(bgplot)
+export(bgstats)
+export(endemism)
+export(rangerarity)
+
+importFrom("Rcpp", evalCpp)
+useDynLib(obigeo, .registration = TRUE)
