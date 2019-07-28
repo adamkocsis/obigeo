@@ -42,3 +42,6 @@ R CMD INSTALL --clean obigeo
 
 
 R CMD build --resave-data obigeo
+
+
+R CMD INSTALL --clean --build obigeo
