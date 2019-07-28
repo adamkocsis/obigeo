@@ -4,3 +4,5 @@
 ### Deleted
 - The Paleomap paleorasters and the DEMs were moved to earthhist.
 - mapplot() and mapindex() are also in earthhist.
+- uploaded to github for proper version tracking
+- compiled first binaries and source
