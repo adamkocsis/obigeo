@@ -120,6 +120,8 @@ bgpart <- function(dat,  tax, cell, bin=NULL,ocq=0, base="network", feedback=FAL
 			contingency<-table(datSub[,tax], datSub$stc)
 			class(contingency) <- "matrix"
 			
+			if(feedback) fb("Calling base-specific methods.")
+
 			if(base=="network"){
 				callArgs <- list(
 					contingency=contingency,
@@ -169,9 +171,47 @@ bgpart <- function(dat,  tax, cell, bin=NULL,ocq=0, base="network", feedback=FAL
 	
 					output<-cbind(resDat, output)
 				}
-
+			# distance case
 			}else{
-				stop("base!=network is not yet implemented!")
+			
+				callArgs <- list(
+					contingency=contingency,
+					feedback=feedback
+					)
+
+				callArgs <- c(callArgs, addArgs)
+					
+				# the partitioning already run
+				output <- do.call(groupDist, callArgs)
+
+				# if vector, promote to data.frame
+				if(is.null(dim(output))){
+							
+					output <- data.frame(grouping=output)
+				}
+				
+				# should the missing values be here?
+				if(omitted){
+					output <- output[names(tCells),]
+					if(is.null(dim(output))){
+						output <- data.frame(grouping=output)
+					}
+					rownames(output)<- names(tCells)
+				}
+
+				# decompose stc to bin and cell
+				stcEntries<-rownames(output)
+				listStc<-strsplit(stcEntries, sep)
+				resDat <- data.frame(
+					bin=as.numeric(unlist(lapply(listStc,function(x)x[1]))),
+					cell=as.character(unlist(lapply(listStc,function(x)x[2]))),
+					stringsAsFactors=FALSE)
+				colnames(resDat)[1:2]<-c(bin, cell)
+
+				if(feedback) fb("Summing up.")
+	
+				output<-cbind(resDat, output)
+				taxa <- NULL
 			}		
 		# bin-wise partitioning
 		}else{

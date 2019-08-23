@@ -1,6 +1,13 @@
 # Change log
 
-## [0.2.0] (build 78) - 2018.02.01
+## [0.2.0] (build 86) - 2019-08-23
+### Added
+- Tracing method for the bgpart()-distance method
+
+### Changed
+- R 3.5.0 dependency
+
+## [0.2.0] (build 78) - 2018-02-01
 ### Deleted
 - The Paleomap paleorasters and the DEMs were moved to earthhist.
 - mapplot() and mapindex() are also in earthhist.

@@ -31,7 +31,7 @@
 # OUTSIDE R -  BASH
 
 
-cd /media/adam/data/shared/Dropbox/WorkSpace/2018-12-04_provinciality
+cd /media/adam/data/shared/Dropbox/WorkSpace/2019-08-23_obigeo
 
 # for building the vignettes and testing
 sudo env PATH=$PATH R CMD INSTALL --clean obigeo 

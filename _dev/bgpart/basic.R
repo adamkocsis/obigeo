@@ -13,11 +13,6 @@ data(ceno6)
 gr<- hexagrid(c(4,3), sp=T)
 gr2<- hexagrid(c(7), sp=T)
 
-# look up coordinates in the cells
-ceno6$icos <- locate(gr, ceno6[, c("paleolng", "paleolat")])
-ceno6$icos2 <- locate(gr2, ceno6[, c("paleolng", "paleolat")])
-
-
 # basic examples for development
 	oneC6 <- bgpart(ceno6,bin=NULL, tax="trinomen", cell="icos", ocq=10, base="network", method="infomap")
 	slicewiseC6 <- bgpart(ceno6,bin="stg", tax="trinomen", cell="icos", ocq=10, base="network", method="infomap")
@@ -32,7 +27,33 @@ ceno6$icos2 <- locate(gr2, ceno6[, c("paleolng", "paleolat")])
 	oneC6 <- bgpart(ceno6,bin=NULL, tax="trinomen", cell="icos", ocq=10, base="network", method="infomap", console=TRUE,
 		cpath="D:\\Dropbox\\Programs\\Infomap_0.19.14\\win", cargs=NULL)
 
+
+
+dat =ceno6
+tax <- "trinomen"
+cell <- "icos"
+bin="stg"
+ocq=0
+base="distance" 
+feedback=FALSE
+slq=50
+tracing=FALSE
+coll=NULL
+cols=TRUE
+tracing=TRUE
+omitted=TRUE
+addArgs<- list(
+
+)
+
+
+
+
+
 traceRes<-bgstats(tracingW, cell="icos2", bin="stg")
+
+
+
 
 
 
