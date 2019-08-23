@@ -16,10 +16,10 @@ Save it somewhere, and then run
 - Make sure that the devtools package is installed
 - Download the archive:
 ``
-https://github.com/adamkocsis/obigeo/raw/master/_archive/source/obigeo_0.2.0-78.tar.gz
+https://github.com/adamkocsis/obigeo/raw/master/_archive/source/obigeo_0.2.0-86.tar.gz
 ``
 
 Save it somewhere, and then run 
-`install.packages("<yourpath>obigeo_0.2.0-78.tar.gz/", repos=NULL)`
+`install.packages("<yourpath>obigeo_0.2.0-86.tar.gz/", repos=NULL)`
 
 
