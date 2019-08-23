@@ -70,7 +70,7 @@ bgplot<-function(bdat, map=NULL, lng=NULL, lat=NULL,  colors=NULL, labels=NULL, 
 	# run under including setup
 	plot(NULL, NULL,xlim=xlim, ylim=ylim, xlab=xlab, ylab=ylab, xaxs="i", yaxs="i")
 	# plot maps
-	map.args$map <- map
+	map.args$x <- map
 	map.args$add <- TRUE
 	if(!any("legend"==names(map.args))) map.args$legend <- FALSE
 	if(!is.null(map)) do.call(mapplot, map.args)
@@ -151,5 +151,30 @@ bgplot<-function(bdat, map=NULL, lng=NULL, lat=NULL,  colors=NULL, labels=NULL, 
 		grid.args$x <- icosa
 		grid.args$add <- TRUE
 		do.call(plot,grid.args)
+	}
+}
+
+#' Pseudo generic function to plot maps of different object classes - will be in earthhist!!
+#' 
+#' This function plots the different paleo
+#' 
+#' @param x Object to be plotted 
+#' @param legend (\code{logical}) Triggers whether the legend of a RasterLayer would be plotted.
+#' @export
+mapplot<-function(x,legend=FALSE, ...){
+	if(class(x)=="RasterLayer"){
+		plot(x,legend=legend, ...)
+	}
+	if(class(x)=="RasterStack"){
+		plotRGB(x,...)
+	}
+
+	if(class(x)=="RasterArray"){
+		plotRGB(x@stack,...)
+	}
+
+
+	if(class(x)=="SpatialPolygonsDataFrame" | class(x)=="SpatialPolygons"){
+		plot(x,...)
 	}
 }

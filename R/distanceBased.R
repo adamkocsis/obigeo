@@ -43,7 +43,7 @@ groupDist <- function(contingency, binary=TRUE, dist="jaccard", method="ward.D2"
 
 	# 4. cut the dendrogram
 	if(kgs){
-		if(requireNamespace("kgs", quietly=TRUE)){
+		if(requireNamespace("maptree", quietly=TRUE)){
 			penalty<-maptree::kgs(clustObj, distMat,...)
 			ind<-which(penalty==min(penalty))
 			grouping<-stats::cutree(clustObj, k=as.numeric(names(penalty))[ind])

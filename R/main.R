@@ -32,6 +32,8 @@
 bgpart <- function(dat,  tax, cell, bin=NULL,ocq=0, base="network", feedback=FALSE, slq=50, tracing=FALSE, coll=NULL,cols=TRUE,omitted=TRUE, ...){
 	addArgs <- list(...)
 
+	data(allHex)
+	
 	# A. if there is just one slice (e.g. OBIS data)
 	if(is.null(bin)){
 		# 1. create a contingency table for the data

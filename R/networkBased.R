@@ -20,7 +20,7 @@
 #' @export
 groupNet <- function(contingency, bipartite=FALSE, method="infomap", export=NULL, console=FALSE, sampcorr=NULL, feedback=FALSE, onlyloc=TRUE, ...){
 	# copy the contingency matrix
-	if(bipartite) origCont <-contingency
+	origCont <-contingency
 	# convert to incidence matrix
 	contingency[contingency>1]<-1
 		
