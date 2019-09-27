@@ -35,7 +35,7 @@
 
 D:
 
-cd D:\Dropbox\WorkSpace\2018-12-04_provinciality\
+cd D:\Dropbox\WorkSpace\2019-08-23_obigeo\
 
 rem # for building the vignettes and testing
 R CMD INSTALL --clean obigeo
