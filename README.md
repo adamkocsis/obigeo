@@ -8,7 +8,7 @@ https://github.com/adamkocsis/obigeo/raw/master/_archive/bin/Win_x64_x86/obigeo_
 ``
 
 Save it somewhere, and then run 
-`install.packages("<yourpath>obigeo_0.2.0-86.zip/", repos=NULL)`
+`install.packages("<yourpath>obigeo_0.2.0-86.zip/", repos=NULL, type="win.binary")`
 
 
 2. You have to compile the code for yourself. For this:
