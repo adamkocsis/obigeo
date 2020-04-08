@@ -1,4 +1,7 @@
 # Change log
+## [0.2.0] (build 87) - 2020-04-08
+### Added
+- axes argument of bgplot()
 
 ## [0.2.0] (build 86) - 2019-08-23
 ### Added

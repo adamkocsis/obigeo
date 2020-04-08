@@ -33,6 +33,9 @@ bgpart <- function(dat,  tax, cell, bin=NULL,ocq=0, base="network", feedback=FAL
 	addArgs <- list(...)
 
 	data(allHex)
+
+	# rudimentary check
+	if(nrow(dat)==0) stop("The supplied data.frame is empty")
 	
 	# A. if there is just one slice (e.g. OBIS data)
 	if(is.null(bin)){

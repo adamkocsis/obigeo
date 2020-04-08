@@ -39,10 +39,12 @@
 #'
 #' @param lab.args \code{logical} Additional arguments to plot the labels with the text function. 
 #'
+#' @param axes \code{logical} Should the default axes be plotted? 
+#'
 #' @export
 bgplot<-function(bdat, map=NULL, lng=NULL, lat=NULL,  colors=NULL, labels=NULL, cell="rownames", circles=TRUE, icosa=NULL,
 	xlim=c(-180, 180), ylim=c(-90, 90), xlab="longitude", ylab="latitude", alpha=0.5, 
-	between=NULL, fademap=0.5,map.args=NULL, border="gray50", grid.args=NULL, lab.args=NULL){
+	between=NULL, fademap=0.5,map.args=NULL, border="gray50", grid.args=NULL, lab.args=NULL, axes=TRUE){
 
 
 	
@@ -68,12 +70,21 @@ bgplot<-function(bdat, map=NULL, lng=NULL, lat=NULL,  colors=NULL, labels=NULL, 
 	if(is.null(colors) & is.null(labels)) stop("Please provide at least a color or a label variable. ")
 
 	# run under including setup
-	plot(NULL, NULL,xlim=xlim, ylim=ylim, xlab=xlab, ylab=ylab, xaxs="i", yaxs="i")
+	plot(NULL, NULL,xlim=xlim, ylim=ylim, xlab=xlab, ylab=ylab, xaxs="i", yaxs="i", axes=axes)
 	# plot maps
 	map.args$x <- map
 	map.args$add <- TRUE
-	if(!any("legend"==names(map.args))) map.args$legend <- FALSE
-	if(!is.null(map)) do.call(mapplot, map.args)
+	if(!is.null(map)){
+		if(requireNamespace("chronosphere", quietly=TRUE)){
+			if(class(map)=="RasterLayer"){
+				map.args$col <- "earth"
+				if(!any("legend"==names(map.args))) map.args$legend <- FALSE
+			}
+			do.call(mapplot, map.args)
+		}else{
+			do.call(plot, map.args)
+		}
+	}
 
 	if(is.finite(fademap)){
 		fade<-paste("#FFFFFF", sprintf("%x", round(fademap*255)), sep="")
@@ -154,27 +165,27 @@ bgplot<-function(bdat, map=NULL, lng=NULL, lat=NULL,  colors=NULL, labels=NULL, 
 	}
 }
 
-#' Pseudo generic function to plot maps of different object classes - will be in earthhist!!
+#' #' Pseudo generic function to plot maps of different object classes - will be in earthhist!!
+#' #' 
+#' #' This function plots the different paleo
+#' #' 
+#' #' @param x Object to be plotted 
+#' #' @param legend (\code{logical}) Triggers whether the legend of a RasterLayer would be plotted.
+#' #' @export
+#' mapplot<-function(x,legend=FALSE, ...){
+#' 	if(class(x)=="RasterLayer"){
+#' 		plot(x,legend=legend, ...)
+#' 	}
+#' 	if(class(x)=="RasterStack"){
+#' 		plotRGB(x,...)
+#' 	}
 #' 
-#' This function plots the different paleo
+#' 	if(class(x)=="RasterArray"){
+#' 		plotRGB(x@stack,...)
+#' 	}
 #' 
-#' @param x Object to be plotted 
-#' @param legend (\code{logical}) Triggers whether the legend of a RasterLayer would be plotted.
-#' @export
-mapplot<-function(x,legend=FALSE, ...){
-	if(class(x)=="RasterLayer"){
-		plot(x,legend=legend, ...)
-	}
-	if(class(x)=="RasterStack"){
-		plotRGB(x,...)
-	}
-
-	if(class(x)=="RasterArray"){
-		plotRGB(x@stack,...)
-	}
-
-
-	if(class(x)=="SpatialPolygonsDataFrame" | class(x)=="SpatialPolygons"){
-		plot(x,...)
-	}
-}
+#' 
+#' 	if(class(x)=="SpatialPolygonsDataFrame" | class(x)=="SpatialPolygons"){
+#' 		plot(x,...)
+#' 	}
+#' }
