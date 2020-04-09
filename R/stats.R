@@ -9,32 +9,31 @@
 # @param bu (\code{character}) Variable name of grouping (biogeographic units).
 # 
 nGroups <- function(bg, bu="grouping", bin=NULL){
-	if(is.null(bin)){
-		if(is.vector(bg)){
-			nBioreg<-length(levels(factor(bg)))
-		}
-		if(is.data.frame(bg)){
-			nBioreg<-length(levels(factor(bg[,bu])))
-		}
-	}else{
-	
-		if(is.data.frame(bg)){
-			biorTab2<-bg[!is.na(bg[,bu]),]
-			# the number of cells used in the data
-			nBioreg<-tapply(INDEX=biorTab2[, bin], X=biorTab2[,bu], function(x){
-				length(levels(factor(x)))
-			})
-		}
-	}
-
 	if(is.list(bg) & !is.data.frame(bg)){
 		nBioreg<-lapply(bg, function(x){
 			biorTab2<-x[!is.na(x[,bu]),]
 			length(levels(factor(biorTab2[, bu])))
 		})
 		nBioreg <- unlist(nBioreg)
-	}
+	}else{
+		if(is.null(bin)){
+			if(is.vector(bg)){
+				nBioreg<-length(levels(factor(bg)))
+			}
+			if(is.data.frame(bg)){
+				nBioreg<-length(levels(factor(bg[,bu])))
+			}
+		}else{
 		
+			if(is.data.frame(bg)){
+				biorTab2<-bg[!is.na(bg[,bu]),]
+				# the number of cells used in the data
+				nBioreg<-tapply(INDEX=biorTab2[, bin], X=biorTab2[,bu], function(x){
+					length(levels(factor(x)))
+				})
+			}
+		}
+	}	
 	return(nBioreg)
 }
 	
@@ -159,32 +158,32 @@ PIE <- function(grouping){
 }
 
 nPIE <- function(bg, bu="grouping", bin=NULL){
-	if(is.null(bin)){
-		if(is.vector(bg)){
-			nPIEser<-PIE(bg)
-		}
-		if(is.data.frame(bg)){
-			nPIEser<-PIE(bg[,bu])
-		}
-	}else{
-	
-		if(is.data.frame(bg)){
-			biorTab2<-bg[!is.na(bg[,bu]),]
-			# the number of cells used in the data
-			nPIEser<-tapply(INDEX=biorTab2[, bin], X=biorTab2[,bu], function(x){
-				PIE(x)
-			})
-		}
-	}
-
 	if(is.list(bg) & !is.data.frame(bg)){
 		nPIEser<-lapply(bg, function(x){
 			biorTab2<-x[!is.na(x[,bu]),]
 			PIE(biorTab2[, bu])
 		})
 		nPIEser <- unlist(nPIEser)
-	}
+	}else{
+		if(is.null(bin)){
+			if(is.vector(bg)){
+				nPIEser<-PIE(bg)
+			}
+			if(is.data.frame(bg)){
+				nPIEser<-PIE(bg[,bu])
+			}
+		}else{
 		
+			if(is.data.frame(bg)){
+				biorTab2<-bg[!is.na(bg[,bu]),]
+				# the number of cells used in the data
+				nPIEser<-tapply(INDEX=biorTab2[, bin], X=biorTab2[,bu], function(x){
+					PIE(x)
+				})
+			}
+		}
+	}
+	
 	return(nPIEser)
 }
 	
@@ -202,7 +201,7 @@ nPIE <- function(bg, bu="grouping", bin=NULL){
 #'
 #' @param cell (\code{character}) Variable name of the spatial cells.
 #'
-#' @param mjc (\code{numeric}) Minimum number of jointly sampled cells betwen a pair of time slices.
+#' @param mjc (\code{numeric}) Minimum number of jointly sampled cells betwen a pair of time slices. For slicewise results, this can be set to \code{NULL}, which will not return patterns of jointly sampled cells.
 #' @param bb \code{logical} Should by-bioregion turnover be calculated (requires the divDyn package).
 #' @param noNAStart (\code{logical}) Same as divDyn. 
 #' @export
@@ -283,36 +282,38 @@ bgstats <- function(bg, cell, bin=NULL, bu="grouping",  mjc=3, bb=TRUE, noNAStar
 
 	# slicewise result
 	if(is.null(bin) & is.list(bg) & !is.data.frame(bg)){
-		# jointly sampled cells
-		cellsJoint <- rep(NA,length(bg), na.rm=T)
-			
-		for(i in 2:length(cellsJoint)){
-			# the time slice specific part
-			subTab<-bg[[i]]
-			# subset of previous slice
-			prevTab<-bg[[i-1]]
-	
-			# there are more than 0 entries
-			if(nrow(subTab)>0 & nrow(prevTab)>0){
-				# bu vector (this)
-				biorSub<-subTab[,bu]
-				names(biorSub)<-rownames(subTab)
-				biorSub<-biorSub[!is.na(biorSub)]
+		if(!is.null(mjc)){
+			# jointly sampled cells
+			cellsJoint <- rep(NA,length(bg), na.rm=T)
 				
-				# preivous vector (this)
-				biorPrev<-prevTab[,bu]
-				names(biorPrev)<-rownames(prevTab)
-				biorPrev<-biorPrev[!is.na(biorPrev)]
-				
-				# cells that are present in both
-				bothCell<-names(biorSub)[names(biorSub)%in%names(biorPrev)]
-				
-				cellsJoint[i] <- length(bothCell)
-			}
+			for(i in 2:length(cellsJoint)){
+				# the time slice specific part
+				subTab<-bg[[i]]
+				# subset of previous slice
+				prevTab<-bg[[i-1]]
 		
-		}
+				# there are more than 0 entries
+				if(nrow(subTab)>0 & nrow(prevTab)>0){
+					# bu vector (this)
+					biorSub<-subTab[,bu]
+					names(biorSub)<-rownames(subTab)
+					biorSub<-biorSub[!is.na(biorSub)]
+					
+					# preivous vector (this)
+					biorPrev<-prevTab[,bu]
+					names(biorPrev)<-rownames(prevTab)
+					biorPrev<-biorPrev[!is.na(biorPrev)]
+					
+					# cells that are present in both
+					bothCell<-names(biorSub)[names(biorSub)%in%names(biorPrev)]
+					
+					cellsJoint[i] <- length(bothCell)
+				}
+			
+			}
 
-		add<- c(add,"cellsJoint")
+			add<- c(add,"cellsJoint")
+		}
 	}
 
 	# concantenate the final results
@@ -326,29 +327,31 @@ bgstats <- function(bg, cell, bin=NULL, bu="grouping",  mjc=3, bb=TRUE, noNAStar
 		end<-as.numeric(end)
 		names(end)<-add
 	}else{
-		if(!is.null(bin)){
-			binRange<-range(bg[,bin], na.rm=T)
-		}else{
-			binRange<-range(as.numeric(names(bg)), na.rm=T)
-			maxBin<-binRange[2]
-		}
+		if(!is.null(noNAStart)){
+			if(!is.null(bin)){
+				binRange<-range(bg[,bin], na.rm=T)
+			}else{
+				binRange<-range(as.numeric(names(bg)), na.rm=T)
+				maxBin<-binRange[2]
+			}
 
-		# fill potential gaps with NA lines
-		endMat<-matrix(NA, ncol=ncol(end), nrow=length(1:maxBin))
-		rownames(endMat) <- 1:maxBin
-		# omit NAs the beginning
-		end<-end[!is.na(rownames(end)),]
-		endMat[rownames(end),] <- end
-			
-		# should not be NAs at the start
-		if(noNAStart){
-			
-			binSeq<- binRange[1]:binRange[2]
-			end<- endMat[as.character(binSeq),]
+			# fill potential gaps with NA lines
+			endMat<-matrix(NA, ncol=ncol(end), nrow=length(1:maxBin))
+			rownames(endMat) <- 1:maxBin
+			# omit NAs the beginning
+			end<-end[!is.na(rownames(end)),]
+			endMat[rownames(end),] <- end
+				
+			# should not be NAs at the start
+			if(noNAStart){
+				
+				binSeq<- binRange[1]:binRange[2]
+				end<- endMat[as.character(binSeq),]
 
-		# NAs should be at the start
-		}else{
-			end<-endMat
+			# NAs should be at the start
+			}else{
+				end<-endMat
+			}
 		}
 	
 		colnames(end)<-add

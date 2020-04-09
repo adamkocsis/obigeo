@@ -1,12 +1,12 @@
 Package: obigeo
 Type: Package
 Title: Occurrence-based biogeography
-Version: 0.2.0-87
+Version: 0.2.0-88
 Author: Ádám T. Kocsis
 Maintainer: Ádám T. Kocsis <adam.kocsis@fau.de>
 Description: The purpose of this package is to allow the quick calculation biogeographic variables of occurrence-based biogeographic partitioning schemes.
 License: Creative Commons BY 4.0
-Date: 2020-04-08
+Date: 2020-04-09
 Imports:
 	Rcpp,
 	igraph,
