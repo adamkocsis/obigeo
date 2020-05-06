@@ -9,6 +9,7 @@
 # @param bu (\code{character}) Variable name of grouping (biogeographic units).
 # 
 nGroups <- function(bg, bu="grouping", bin=NULL){
+	if(is.null(bg)) nBioreg <- NA
 	if(is.list(bg) & !is.data.frame(bg)){
 		nBioreg<-lapply(bg, function(x){
 			biorTab2<-x[!is.na(x[,bu]),]
@@ -52,6 +53,8 @@ nGroups <- function(bg, bu="grouping", bin=NULL){
 # @param omitted (\code{logica}) Should the omitted (NA assignment) cells be counted?
 # 
 nSites <- function(bg, bu="grouping", bin=NULL, omitted=TRUE){
+	if(is.null(bg)) nBioreg <- NA
+
 	if(is.null(bin)){
 		if(is.vector(bg)){
 			if(!omitted){
@@ -149,11 +152,15 @@ bgturnover<-function(bg, bin, cell, bu="grouping", mjc=3){
 
 
 PIE <- function(grouping){
-
+	
+	grouping <- grouping[!is.na(grouping)]
+	
+	if(is.null(grouping)) val <- NA
 	N<-length(grouping)
 	m<-as.numeric(table(grouping))
 	
-	N/(N-1)*(1-sum((m/N)^2))
+	val <- N/(N-1)*(1-sum((m/N)^2))
+	return(val)
 
 }
 
