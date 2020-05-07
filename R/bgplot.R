@@ -41,10 +41,14 @@
 #'
 #' @param axes \code{logical} Should the default axes be plotted? 
 #'
+#' @param asp \code{numeric} Same as in par(). Defaults to 1 (fixed aspect ratio).
+#'
+#' @param add \code{logical} Should the plot be added to another plot?
+#'
 #' @export
 bgplot<-function(bdat, map=NULL, lng=NULL, lat=NULL,  colors=NULL, labels=NULL, cell="rownames", circles=TRUE, icosa=NULL,
 	xlim=c(-180, 180), ylim=c(-90, 90), xlab="longitude", ylab="latitude", alpha=0.5, 
-	between=NULL, fademap=0.5,map.args=NULL, border="gray50", grid.args=NULL, lab.args=NULL, axes=TRUE){
+	between=NULL, fademap=0.5,map.args=NULL, border="gray50", grid.args=NULL, lab.args=NULL, axes=TRUE, asp=1, add=FALSE){
 
 
 	
@@ -70,7 +74,7 @@ bgplot<-function(bdat, map=NULL, lng=NULL, lat=NULL,  colors=NULL, labels=NULL, 
 	if(is.null(colors) & is.null(labels)) stop("Please provide at least a color or a label variable. ")
 
 	# run under including setup
-	plot(NULL, NULL,xlim=xlim, ylim=ylim, xlab=xlab, ylab=ylab, xaxs="i", yaxs="i", axes=axes)
+	if(!add) plot(NULL, NULL,xlim=xlim, ylim=ylim, xlab=xlab, ylab=ylab, xaxs="i", yaxs="i", axes=axes, asp=asp)
 	# plot maps
 	map.args$x <- map
 	map.args$add <- TRUE

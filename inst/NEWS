@@ -1,4 +1,9 @@
 # Change log
+
+## [0.2.0] (build 90) - 2020-05-07
+### Added
+- The add and asp arguments to bgplot(). Aspect ratio is now constrained by default.
+
 ## [0.2.0] (build 89) - 2020-04-13
 ### Changed
 - Bug fix for bgstats(). NA entries in PIE calculation are omitted in all cases. 
