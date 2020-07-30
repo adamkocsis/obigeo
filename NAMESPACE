@@ -6,6 +6,7 @@ export(bgplot)
 export(bgstats)
 export(endemism)
 export(rangerarity)
+export(bidensity)
 
 importFrom("Rcpp", evalCpp)
 importFrom("chronosphere", mapplot)

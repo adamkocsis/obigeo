@@ -1,5 +1,9 @@
 # Change log
 
+## [0.2.0] (build 92) - 2020-07-30
+### Added
+- bidensity() function
+
 ## [0.2.0] (build 91 - Version without build number, uploaded to Zenodo.) - 2020-07-30
 ### Added
 - documentation for the datasets and some examples to bgpart(), bplot() and endemism()
