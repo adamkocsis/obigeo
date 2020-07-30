@@ -4,8 +4,15 @@
 \alias{bgstats}
 \title{Statistics calculated from a biogeographic partitioning}
 \usage{
-bgstats(bg, cell, bin = NULL, bu = "grouping", mjc = 3, bb = TRUE,
-  noNAStart = FALSE)
+bgstats(
+  bg,
+  cell,
+  bin = NULL,
+  bu = "grouping",
+  mjc = 3,
+  bb = TRUE,
+  noNAStart = FALSE
+)
 }
 \arguments{
 \item{bg}{Output of the \code{\link{bgpart}} function, with \code{tracing=TRUE}.}
@@ -16,7 +23,7 @@ bgstats(bg, cell, bin = NULL, bu = "grouping", mjc = 3, bb = TRUE,
 
 \item{bu}{(\code{character}) Variable name of grouping (biogeographic units).}
 
-\item{mjc}{(\code{numeric}) Minimum number of jointly sampled cells betwen a pair of time slices.}
+\item{mjc}{(\code{numeric}) Minimum number of jointly sampled cells betwen a pair of time slices. For slicewise results, this can be set to \code{NULL}, which will not return patterns of jointly sampled cells.}
 
 \item{bb}{\code{logical} Should by-bioregion turnover be calculated (requires the divDyn package).}
 

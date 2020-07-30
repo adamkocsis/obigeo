@@ -8,4 +8,5 @@ export(endemism)
 export(rangerarity)
 
 importFrom("Rcpp", evalCpp)
+importFrom("chronosphere", mapplot)
 useDynLib(obigeo, .registration = TRUE)

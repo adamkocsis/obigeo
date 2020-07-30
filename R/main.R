@@ -28,6 +28,19 @@
 #' @param cols \code{logical} Should colors be automatically assigned to each group?
 #' @param ...  Arguments passed to the \code{\link{groupNet}} or \code{\link{groupDist}} functions.
 #' 
+#' @examples
+#' # load example dataset
+#' data(ceno6)
+#' # single-slice partitioning (using infomap)
+#' oneC6 <- bgpart(ceno6,bin=NULL, tax="trinomen", cell="icos", ocq=10, base="network", method="infomap")
+#' 
+#' # iteration of sing slice partitiongs for every stg, separately (using infomap)
+#' slicewiseC6 <- bgpart(ceno6,bin="stg", tax="trinomen", cell="icos", ocq=10, base="network", method="infomap")
+#' 
+#' # tracing method, coarser resolution (using infomap)
+#' tracing <- bgpart(ceno6,bin="stg", tax="trinomen", cell="icos", ocq=10, base="network", method="infomap", tracing=TRUE)
+#' 
+#' # SEE THE bgplot() function for plotting!	
 #' @export
 bgpart <- function(dat,  tax, cell, bin=NULL,ocq=0, base="network", feedback=FALSE, slq=50, tracing=FALSE, coll=NULL,cols=TRUE,omitted=TRUE, ...){
 	addArgs <- list(...)

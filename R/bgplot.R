@@ -5,45 +5,55 @@
 #' 
 #' Option B. coorindates go to bdat, triggering 
 #' 
-#' @param bdat \code{data.frame} Biogeographic partitioning.
+#' @param bdat (\code{data.frame}) Biogeographic partitioning.
 #'
-#' @param map A map object, plottable with \code{\link{mapplot}}.
+#' @param map (\code{SpatialPolygons, SpatialPolygonsDataFrame, RasterLayer}) A map object, plottable with \code{\link[chronosphere]{mapplot}}.
 #' 
-#' @param colors \code{character} Variable name of the colors.
+#' @param colors (\code{character}) Variable name of the colors.
 #'
-#' @param labels \code{character} Variable name of the labels.
+#' @param labels (\code{character}) Variable name of the labels.
 #' 
-#' @param cell \code{character} Where is the cell information? "rownames" or column name.
+#' @param cell (\code{character}) Where is the cell information? "rownames" or column name.
 #' 
-#' @param circles \code{logical} Should the Equator and the 30 degree latitudinal circles be plotted?
+#' @param circles (\code{logical}) Should the Equator and the 30 degree latitudinal circles be plotted?
 #' 
-#' @param icosa \code{hexagrid} or \code{trigrid} Optional argument, a grid from the icosa package (if cells of such grid are used). Otherise the biogeographic regions will be indicated with circles (not yet?).
+#' @param icosa (\code{hexagrid}) or \code{trigrid} Optional argument, a grid from the icosa package (if cells of such grid are used). Otherise the biogeographic regions will be indicated with circles (not yet?).
 #' 
-#' @param xlim \code{numeric} the standard argument of plot() - not tested yet!
+#' @param xlim (\code{numeric}) the standard argument of plot() - not tested yet!
 #' 
-#' @param ylim \code{numeric} the standard argument of plot() - not tested yet!
+#' @param ylim (\code{numeric}) the standard argument of plot() - not tested yet!
 #' 
-#' @param xlab \code{character} the standard argument of plot() - not tested yet!
+#' @param xlab (\code{character}) the standard argument of plot() - not tested yet!
 #' 
-#' @param ylab \code{character} the standard argument of plot() - not tested yet!
+#' @param ylab (\code{character}) the standard argument of plot() - not tested yet!
 #' 
-#' @param alpha \code{numeric} Numeric value between 0 and 1 indicating the opacity of the partitioning.
+#' @param alpha (\code{numeric}) Numeric value between 0 and 1 indicating the opacity of the partitioning.
 #' 
-#' @param fademap \code{numeric} Numeric value between 0 and 1 indicating the opacity of the map.
+#' @param fademap (\code{numeric}) Numeric value between 0 and 1 indicating the opacity of the map.
 #' 
-#' @param map.args \code{list} Additional arguments passed to the \code{\link{mapplot}} function to render the maps.
+#' @param map.args (\code{list}) Additional arguments passed to the \code{\link{mapplot}} function to render the maps.
 #' 
-#' @param between \code{expression} code to be executed between the map drawing and the plotting of the partitioning.
+#' @param between (\code{expression}) code to be executed between the map drawing and the plotting of the partitioning.
 #' 
-#' @param grid.args \code{logical} Additional arguments to plot the grid itself. 
+#' @param grid.args (\code{logical}) Additional arguments to plot the grid itself. 
 #'
-#' @param lab.args \code{logical} Additional arguments to plot the labels with the text function. 
+#' @param lab.args (\code{logical}) Additional arguments to plot the labels with the text function. 
 #'
-#' @param axes \code{logical} Should the default axes be plotted? 
+#' @param axes (\code{logical}) Should the default axes be plotted? 
 #'
-#' @param asp \code{numeric} Same as in par(). Defaults to 1 (fixed aspect ratio).
+#' @param asp (\code{numeric}) Same as in par(). Defaults to 1 (fixed aspect ratio).
 #'
-#' @param add \code{logical} Should the plot be added to another plot?
+#' @param add (\code{logical}) Should the plot be added to another plot?
+#'
+#' @examples
+#' # Partition the Cenozoic 6 benthic subset of the Paleobiology Database
+#' oneC6 <- bgpart(ceno6,bin=NULL, tax="trinomen", cell="icos", ocq=10, base="network", method="infomap")
+#' # The used grid for plotting
+#' library(icosa)
+#' hex <- hexagrid(c(4,3), sp=TRUE)
+#' # land polygons and colors for a nice plot
+#' data(land)
+#' bgplot(oneC6, map=land, colors="col", icosa=hex, labels="grouping")
 #'
 #' @export
 bgplot<-function(bdat, map=NULL, lng=NULL, lat=NULL,  colors=NULL, labels=NULL, cell="rownames", circles=TRUE, icosa=NULL,

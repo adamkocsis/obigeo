@@ -8,6 +8,14 @@
 #' @param prop \code{(logical)} Set to \code{TRUE} for proportional endemism (default). Setting this to \code{FALSE} will output the the number of endemic species.
 #' 
 #' @export
+#' @examples
+#' # create a partitioning
+#' data(ceno6)
+#' oneC6 <- bgpart(ceno6,bin=NULL, tax="trinomen", cell="icos", ocq=10, base="network", method="infomap")
+#' # add membership to every row based on the cells
+#' ceno6$membership <- oneC6[ceno6$icos,"grouping"]
+#' # endemism in regions
+#' endemism(ceno6, tax="trinomen", loc="membership")
 endemism <- function(dat, tax=NULL, loc=NULL, prop=TRUE){
 	# not a raster stack
 	if(is.data.frame(dat) | is.matrix(dat)){

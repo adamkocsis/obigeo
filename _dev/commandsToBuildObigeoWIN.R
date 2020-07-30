@@ -1,5 +1,5 @@
 # package building scripts
-	setwd("D:/Dropbox/WorkSpace/2018-12-04_provinciality/package")
+	setwd("D:/Dropbox/WorkSpace/2019-08-23_obigeo/obigeo")
 	pkgbuild::compile_dll()
 	devtools::document()
 	

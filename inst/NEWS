@@ -1,5 +1,10 @@
 # Change log
 
+## [0.2.0] (build 91 - Version without build number, uploaded to Zenodo.) - 2020-07-30
+### Added
+- documentation for the datasets and some examples to bgpart(), bplot() and endemism()
+- imports from chronosphere
+
 ## [0.2.0] (build 90) - 2020-05-07
 ### Added
 - The add and asp arguments to bgplot(). Aspect ratio is now constrained by default.

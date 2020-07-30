@@ -4,9 +4,17 @@
 \alias{groupNet}
 \title{Single time slice,network-based compositional (e.g. biogeographic) partitioning}
 \usage{
-groupNet(contingency, bipartite = FALSE, method = "infomap",
-  export = NULL, console = FALSE, sampcorr = NULL,
-  feedback = FALSE, onlyloc = TRUE, ...)
+groupNet(
+  contingency,
+  bipartite = FALSE,
+  method = "infomap",
+  export = NULL,
+  console = FALSE,
+  sampcorr = NULL,
+  feedback = FALSE,
+  onlyloc = TRUE,
+  ...
+)
 }
 \arguments{
 \item{contingency}{(\code{matrix}) Numeric matrix, species in rows, localities in columns.}

@@ -4,9 +4,17 @@
 \alias{groupDist}
 \title{Single time slice compositional partitioning based on distance-based cluster analysis}
 \usage{
-groupDist(contingency, binary = TRUE, dist = "jaccard",
-  method = "ward.D2", counts = FALSE, kgs = FALSE, plot = FALSE,
-  feedback = FALSE, ...)
+groupDist(
+  contingency,
+  binary = TRUE,
+  dist = "jaccard",
+  method = "ward.D2",
+  counts = FALSE,
+  kgs = FALSE,
+  plot = FALSE,
+  feedback = FALSE,
+  ...
+)
 }
 \arguments{
 \item{contingency}{(\code{matrix}) Numeric matrix, species in rows, localities in columns.}
