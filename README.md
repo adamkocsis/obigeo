@@ -14,7 +14,7 @@ As the package now uses compiled code to make things run faster, there are two w
 
 1. If you are using Windows, you can use the binaries I have built for Windows x86 and x64. Just open R and paste in: 
 ```r
-install.packages("https://github.com/adamkocsis/obigeo/raw/master/_archive/bin/Win_x64_x86/obigeo_0.2.0-92.zip/", repos=NULL, type="win.binary")
+install.packages("https://github.com/adamkocsis/obigeo/raw/master/_archive/bin/Win_x64_x86/obigeo_0.2.0-94.zip/", repos=NULL, type="win.binary")
 ```
 
 
@@ -23,6 +23,6 @@ install.packages("https://github.com/adamkocsis/obigeo/raw/master/_archive/bin/W
 - Make sure that the devtools package is installed
 - Open R and paste in: 
 ```r
-install.packages("https://github.com/adamkocsis/obigeo/raw/master/_archive/source/obigeo_0.2.0-92.tar.gz", repos=NULL)`
+install.packages("https://github.com/adamkocsis/obigeo/raw/master/_archive/source/obigeo_0.2.0-94.tar.gz", repos=NULL)`
 ```
 
