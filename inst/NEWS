@@ -3,6 +3,7 @@
 ## [0.2.0] (build 94) - 2020-07-31
 ### Added
 - The submodularity() function
+- initial omission of missing values in bgpart()
 
 ### Fixed
 - an R internal-related bug that made the tracing method return values for cells that did not meet the ocq quota. This is an issue with unexpected malfunction, possibly because of the igraph package. I implemented a bypass, somewhat slower, but more reliable. 

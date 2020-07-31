@@ -49,9 +49,13 @@ bgpart <- function(dat,  tax, cell, bin=NULL,ocq=0, base="network", feedback=FAL
 
 	# rudimentary check
 	if(nrow(dat)==0) stop("The supplied data.frame is empty")
-	
+
+
 	# A. if there is just one slice (e.g. OBIS data)
 	if(is.null(bin)){
+		# omit missing 
+		dat <- dat[!is.na(dat[,tax]) & !is.na(dat[,cell]), ]
+	
 		# 1. create a contingency table for the data
 			contingency<-table(dat[,tax], dat[,cell])
 			class(contingency)<-"matrix"
@@ -104,6 +108,9 @@ bgpart <- function(dat,  tax, cell, bin=NULL,ocq=0, base="network", feedback=FAL
 	
 	# multiple bins
 	}else{
+		# omit missing 
+		dat <- dat[!is.na(dat[,tax]) & !is.na(dat[,cell]) & !is.na(dat[,bin]), ]
+
 		# # slice quota
 			tSlice<-table(dat[,bin])
 			keepSlice<-as.numeric(names(tSlice[tSlice>=slq]))
