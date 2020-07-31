@@ -74,7 +74,7 @@ bgpart <- function(dat,  tax, cell, bin=NULL,ocq=0, base="network", feedback=FAL
 			output <- groupNet(contingency, feedback=feedback, ...)
 			
 			# in csae the bipartite network returns taxa
-			if(is.list(output) & !is.data.frame(output)){
+			if(is.list(output) & !is.data.frame(output) & !("igraph"%in%class(output))){
 				taxa<-output[[2]]
 				output<-output[[1]]
 			}else{
@@ -142,14 +142,14 @@ bgpart <- function(dat,  tax, cell, bin=NULL,ocq=0, base="network", feedback=FAL
 				callArgs <- list(
 					contingency=contingency,
 					feedback=feedback
-					)
+				)
 
 				callArgs <- c(callArgs, addArgs)
 
 				output <- do.call(groupNet, callArgs)
 
 				# in case the bipartite network returns taxa
-				if(is.list(output)){
+				if(is.list(output) & !("igraph"%in%class(output))){
 					taxa<-output[[2]]
 					output<-output[[1]]
 				}else{
@@ -157,21 +157,40 @@ bgpart <- function(dat,  tax, cell, bin=NULL,ocq=0, base="network", feedback=FAL
 				}
 	
 				#if the method was set, and something is output
-				if(!class(output)=="igraph"){	
+				if(!"igraph"%in%class(output)){	
 					
 					# if vector, promote to data.frame
 					if(is.null(dim(output))){
-								
-						output <- data.frame(grouping=output)
+						# force deep copy
+						out1 <- as.numeric(output)
+						nam <- names(output)
+						output <- data.frame(grouping=out1)
+						rownames(output) <- nam
 					}
 				
 					# should the missing values be here?
 					if(omitted){
-						output <- output[names(tCells),]
-						if(is.null(dim(output))){
-							output <- data.frame(grouping=output)
+						# this was buggy in R: above it had problems making this vector a data.frame
+						# I had to repeat it here for no apparent reason.
+						# and then out-of-boudns subset was not working fine. 
+						# added forcing of copy above
+		#				output <- output[names(tCells),]
+		#				if(is.null(dim(output))){
+		#					output <- data.frame(grouping=output)
+		#				}
+		#				rownames(output)<- names(tCells)
+
+						# MANUAL HARD COPY +extension- slower but reliable
+						newDF<-data.frame(nrow=length(tCells))
+						for(i in 1:ncol(output)){
+							column <- rep(NA, length(tCells))
+							names(column) <-names(tCells)
+							column[rownames(output)] <- output[,i]
+							newDF<-cbind(newDF, column)
 						}
-						rownames(output)<- names(tCells)
+						newDF$nrow <- NULL
+						colnames(newDF) <- colnames(output)
+						output <- newDF
 					}
 
 					# decompose stc to bin and cell
