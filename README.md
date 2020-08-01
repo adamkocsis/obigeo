@@ -23,6 +23,6 @@ install.packages("https://github.com/adamkocsis/obigeo/raw/master/_archive/bin/W
 - Make sure that the devtools package is installed
 - Open R and paste in: 
 ```r
-install.packages("https://github.com/adamkocsis/obigeo/raw/master/_archive/source/obigeo_0.2.1.tar.gz", repos=NULL)`
+install.packages("https://github.com/adamkocsis/obigeo/raw/master/_archive/source/obigeo_0.2.1.tar.gz", repos=NULL)
 ```
 
