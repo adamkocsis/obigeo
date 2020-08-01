@@ -210,9 +210,10 @@ nPIE <- function(bg, bu="grouping", bin=NULL){
 #'
 #' @param mjc (\code{numeric}) Minimum number of jointly sampled cells betwen a pair of time slices. For slicewise results, this can be set to \code{NULL}, which will not return patterns of jointly sampled cells.
 #' @param bb \code{logical} Should by-bioregion turnover be calculated (requires the divDyn package).
+#' @param propSing (\code{logical}) Should single-interval regions be counted in the emergence/disintegration proportions? Default to \code{FALSE} as in Kocsis et al. 2018, Proceedings B. 
 #' @param noNAStart (\code{logical}) Same as divDyn. 
 #' @export
-bgstats <- function(bg, cell, bin=NULL, bu="grouping",  mjc=3, bb=TRUE, noNAStart=FALSE){
+bgstats <- function(bg, cell, bin=NULL, bu="grouping",  mjc=3, bb=TRUE, noNAStart=FALSE, propsing=FALSE){
 # 	bg<-traceWhole
 # 	cell<-"icos2"
 # 	bin<- "stg"
@@ -275,9 +276,13 @@ bgstats <- function(bg, cell, bin=NULL, bu="grouping",  mjc=3, bb=TRUE, noNAStar
 			if(requireNamespace('divDyn', quietly=T)){
 				bg2<-bg[!is.na(bg[,bu]),]
 				ddBior<-divDyn::divDyn(bg2, tax=bu, bin=bin)
-
-				disint<-ddBior[, "extProp"]
-				emerge<-ddBior[, "oriProp"]
+				if(propsing){
+					disint<-ddBior[, "extProp"]
+					emerge<-ddBior[, "oriProp"]
+				}else{
+					emerge<- (ddBior$tOri)/ddBior$divRT
+					disint<- (ddBior$tExt)/ddBior$divRT
+				}
 
 			}
 

@@ -11,7 +11,8 @@ bgstats(
   bu = "grouping",
   mjc = 3,
   bb = TRUE,
-  noNAStart = FALSE
+  noNAStart = FALSE,
+  propsing = FALSE
 )
 }
 \arguments{
@@ -28,6 +29,8 @@ bgstats(
 \item{bb}{\code{logical} Should by-bioregion turnover be calculated (requires the divDyn package).}
 
 \item{noNAStart}{(\code{logical}) Same as divDyn.}
+
+\item{propSing}{(\code{logical}) Should single-interval regions be counted in the emergence/disintegration proportions? Default to \code{FALSE} as in Kocsis et al. 2018, Proceedings B.}
 }
 \description{
 This function will output various statistics of biogeographic partitioning files

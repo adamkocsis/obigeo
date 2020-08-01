@@ -1,5 +1,9 @@
 # Change log
 
+## [0.2.1] (build 95 - Uploaded to Zenodo without build n.) - 2020-08-01
+### Added
+- the 'propsing' argument of the bgstats() function. Setting this to FALSE will return emergence and disintegration proportions that do not include the single-interval regions. Earlier this defaulted to TRUE. 
+
 ## [0.2.0] (build 94) - 2020-07-31
 ### Added
 - The submodularity() function
