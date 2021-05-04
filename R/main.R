@@ -156,7 +156,7 @@ bgpart <- function(dat,  tax, cell, bin=NULL,ocq=0, base="network", feedback=FAL
 				output <- do.call(groupNet, callArgs)
 
 				# in case the bipartite network returns taxa
-				if(is.list(output) & !("igraph"%in%class(output))){
+				if(is.list(output) & !("igraph"%in%class(output)) & !is.data.frame(output)){
 					taxa<-output[[2]]
 					output<-output[[1]]
 				}else{
@@ -292,7 +292,10 @@ bgpart <- function(dat,  tax, cell, bin=NULL,ocq=0, base="network", feedback=FAL
 			output<-data.frame(grouping=output, col=colors, stringsAsFactors=FALSE)
 		}
 		if(is.data.frame(output)){
-			output$col<- allHex[output$grouping]
+			# only works for the igraph implementation
+			if("grouping"%in%colnames(output)){
+				output$col<- allHex[output$grouping]
+			}
 		}
 	}
 

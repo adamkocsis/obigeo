@@ -99,7 +99,7 @@ groupNet <- function(contingency, bipartite=FALSE, method="infomap", export=NULL
 			# 3different methods
 			if(method=="infomap"){
 				if(console){
-					grouping <- infomapConsole(graph, bipartite,...)
+					grouping <- infomapConsole(graph, ...)
 				# run from igraph	
 				} else{
 					if(feedback) fb("Infomap from igraph.")
