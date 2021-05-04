@@ -17,6 +17,7 @@ As the package now uses compiled code to make things run faster, there are two w
 install.packages("https://github.com/adamkocsis/obigeo/raw/master/_archive/bin/Win_x64_x86/obigeo_0.2.1.zip/", repos=NULL, type="win.binary")
 ```
 
+Install RTOOLs if it is required for some reason.
 
 2. You have to compile the code for yourself. For this:
 - Install a compiler. For Windows, this would be included in Rtools.

@@ -368,3 +368,52 @@ loadDotTree <- function(file, simple=T){
 
 # loadDotTree(file="Data/Graphs/gLoc.tree")
 
+#' Export a unipartite or bipartite graph to a pajek file
+#'
+#' @param graph An igraph graph.
+#' @param file The file path of the output file.
+#' @return The function returns no value.
+#' @export
+exportPajekUndirected <- function(graph, file){
+	
+	zz <- file(file, "w")
+
+	cat("*Vertices ", file=zz)
+	cat(length(V(graph)), file=zz)
+
+	
+	cat("\n", file=zz )
+	
+	# all vertex names
+	allVert <- names(igraph::V(graph))
+	for(i in 1:length(allVert)){
+		cat(paste0(i, " \"", allVert[i], "\"\n"),file=zz )
+	}
+	# bipartite or not?
+	if(igraph::is.bipartite(graph)){
+		sizes<- igraph::bipartite.projection.size(graph)
+
+		cat("*Bipartite ", file=zz )
+		cat(sizes$vcount1+1, file=zz)
+		cat("\n", file=zz)
+	}else{
+		cat("*Edges\n", file=zz)
+	}
+	en <- igraph::as_edgelist(graph, names=F)
+
+	# are there weights?
+	weights<- igraph::E(graph)$weight
+
+	for(i in 1:nrow(en)){
+		if(is.null(weights)){
+			cat(paste0(en[i,1], " ", en[i,2], "\n"), file=zz)
+		}else{
+			cat(paste0(en[i,1], " ", en[i,2], " ", weights[i], "\n"), file=zz)
+		}
+	}
+	# closing
+
+	close(zz)	
+		
+}
+
