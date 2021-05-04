@@ -1,5 +1,5 @@
 # package building scripts
-	setwd("/media/adam/data/shared/Dropbox/WorkSpace/2018-12-04_provinciality/obigeo")
+	setwd("/mnt/sky/Dropbox/WorkSpace/2019-08-23_obigeo/obigeo")
 	
 	pkgbuild::compile_dll()
 	devtools::document()

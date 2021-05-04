@@ -3,6 +3,7 @@
 ## [0.2.2] (build 96) - 2021-05-04
 ### Added
 - exportPajekUndirected() function to export a pajek file that can be read in with the infomap program.
+- Rewritten the infomapConsole() function to work with version 1.x.
 
 ## [0.2.1] (build 95 - Uploaded to Zenodo without build n.) - 2020-08-01
 ### Added

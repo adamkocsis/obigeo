@@ -177,58 +177,66 @@ get_os <- function(){
 #' This function reaches out from R, runs infomap, and loads its output to R. The infomap executable should be added to the system path environment variable (could be run from any directory).
 #' 
 #' @param graph (\code{igraph}) A graph.
+#'
+#' @param ipath (\code{character}) Full path to the application. If not provided, then it is assumed that the it is on the PATH. 
 #' 
-#' @param bipartite (\code{logical}) Is the graph bipartite? The readin function will use this piece of information.
-#' 
-#' @param cargs Argumentation run with the console
+#' @param cargs (\code{character}) Argumentation run with the console
 #' 
 #' @param feedback (\code{logical}) Should the functions output information about progress?
 #' 
 #' @export
-infomapConsole<-function(graph, bipartite,cargs=NULL, feedback=FALSE){
-	if(bipartite){
-		if(feedback) fb("Writing graph to harddrive.")
-		# 1. start by writing a graph to the harddrive
-		# generate a temporary file
-		tempd <- tempdir()
-		igraph::write.graph(graph, file=paste(tempd,"/graph.net", sep=""), format="pajek")
-		
-		# determine os type
-		OS <- get_os() 
-		if(OS=="linux"){
-			# 2. run infomap with the desired parameters
-			command <- paste(
-				"./Infomap ",
-				tempd,"/graph.net ",
-				tempd,"/ ",
-				cargs,
-				sep=""
-			)
-			
+infomapConsole<-function(graph, ipath=NULL, cargs=NULL, feedback=FALSE){
+
+	if(feedback) fb("Writing graph to harddrive.")
+	# 1. start by writing a graph to the harddrive
+	# generate a temporary file
+	tempd <- tempdir()
+	exportPajekUndirected(graph, file=paste(tempd,"/graph.net", sep=""))
+
+	# check whether the application is found
+
+	# determine os type
+	OS <- get_os() 
+	if(OS=="linux"){
+		if(is.null(ipath)){
+			# Assume that it is on the path
+			ipath <- "Infomap"
 		}
-		if(OS=="windows"){
-			command <- paste(
-				"Infomap.exe ",
-				tempd,"\\temp\\graph.net ",
-				tempd,"\\temp\\ ",
-				cargs,
-				sep=""
-			)
-		}
-		if(!OS%in%c("linux", "windows")){
-			stop("Not yet!")
-		}
-		
-		if(feedback) fb("Starting the console application.")
-		# run all this
-		system(command, ignore.stdout=T, wait=TRUE)
-		
+		# Check wether ok or not
+		CheckInfomap(ipath)
+
+
+		# 2. run infomap with the desired parameters
+		command <- paste(
+			ipath, " ",
+			cargs, " ", 
+			tempd,"/graph.net ",
+			tempd,"/ ",
+			"> ", tempd, "/graph.log",
+			sep=""
+		)
+
+	}
+	if(OS=="windows"){
+		stop("Not yet!")
+	}
+	if(!OS%in%c("linux", "windows")){
+		stop("Not yet!")
+	}
+
+	if(feedback) fb("Starting the console application.")
+	# run all this
+	system(command, wait=TRUE)
+
 		fb("Reading membership.")
 		# 3. read in the results
 		if(OS=="linux") inputPath <-paste(tempd,"/graph.tree",sep="")
 		if(OS=="windows") inputPath <-paste(tempd,"\\graph.tree",sep="")
 		grouping<-loadDotTree(file=inputPath)
 		rownames(grouping) <- names(igraph::V(graph))
+
+	if(igraph::is.bipartite(graph)){		
+
 		
 		bCell<-rownames(grouping)%in%colnames(cr)
 		cellGroup<-grouping[bCell,]
@@ -240,50 +248,6 @@ infomapConsole<-function(graph, bipartite,cargs=NULL, feedback=FALSE){
 		grouping[[tax]]<-taxGroup
 			
 
-	}else{
-		if(feedback) fb("Writing graph to harddrive.")
-		# 1. start by writing a graph to the harddrive
-		tempd <- tempdir()
-		igraph::write.graph(graph, file=paste(tempd,"/graph.net", sep=""), format="pajek")
-		
-		# 2. run infomap with the desired parameters
-		# determine os type
-		OS <- get_os() 
-		if(OS=="linux"){
-			# 2. run infomap with the desired parameters
-			command <- paste(
-				cpath,"/./Infomap ",
-				tempd,"/graph.net ",
-				tempd,"/",
-				cargs,
-				sep=""
-			)
-			
-		}
-		if(OS=="windows"){
-			command <- paste(
-				cpath,"\\Infomap.exe ",
-				tempd,"\\temp\\graph.net ",
-				tempd,"\\temp\\ ",
-				cargs,
-				sep=""
-			)
-		}
-		if(!OS%in%c("linux", "windows")){
-			stop("Not yet!")
-		}
-
-		if(feedback) fb("Starting the console application.")
-		# run all this
-		system(command, ignore.stdout=T, wait=TRUE)
-		
-		if(feedback) fb("Reading membership.")
-		# 3. read in the results
-		if(OS=="linux") inputPath <-paste(tempd,"/graph.tree",sep="")
-		if(OS=="windows") inputPath <-paste(tempd,"\\graph.tree",sep="")
-		grouping<-loadDotTree(file=inputPath)
-		rownames(grouping) <- names(igraph::V(graph))
-				
 	}
 
 	return(grouping)
@@ -328,8 +292,11 @@ loadDotTree <- function(file, simple=T){
 	everyLine<-readLines(connect)
 	
 	close(connect)
+
+	# determine where the comments are
+	commentLines <- max(grep("#", everyLine))
 	
-	everyLine<-everyLine[3:length(everyLine)]
+	everyLine<-everyLine[(commentLines+1):length(everyLine)]
 	total<-strsplit(everyLine," ")
 	
 	flow <- as.numeric(getListElement(total, 2))
@@ -365,6 +332,13 @@ loadDotTree <- function(file, simple=T){
 
 	return(res)
 }
+
+# Function to check whether the infomap console application exists at the specific path. 
+CheckInfomap<- function(path){
+	call <- paste0(path, " --version")
+	a <- system(call, ignore.stdout=TRUE)
+	if(!a==0) stop("The Infomap application could not be detected. ")
+}	
 
 # loadDotTree(file="Data/Graphs/gLoc.tree")
 

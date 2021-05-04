@@ -8,6 +8,7 @@ export(endemism)
 export(rangerarity)
 export(bidensity)
 export(submodularity)
+export(exportPajekUndirected)
 
 importFrom("igraph", induced_subgraph)
 importFrom("igraph", V)
