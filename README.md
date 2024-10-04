@@ -9,6 +9,8 @@ After installing, type in
 ```
 to see the main function for biogeographic partitioning. 
 
+You can find an example script in the `_tutorials` directory.
+
 ## Installing 
 
 As the package now uses compiled code to make things run faster, there are two ways to install.
