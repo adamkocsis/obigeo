@@ -7,7 +7,7 @@
 #' 
 #' @param bdat (\code{data.frame}) Biogeographic partitioning.
 #'
-#' @param map (\code{SpatialPolygons, SpatialPolygonsDataFrame, RasterLayer}) A map object, plottable with \code{\link[chronosphere]{mapplot}}.
+#' @param map (\code{sf{ or \code{SpatRaster}) A map object.
 #' 
 #' @param colors (\code{character}) Variable name of the colors.
 #'
@@ -85,19 +85,18 @@ bgplot<-function(bdat, map=NULL, lng=NULL, lat=NULL,  colors=NULL, labels=NULL, 
 
 	# run under including setup
 	if(!add) plot(NULL, NULL,xlim=xlim, ylim=ylim, xlab=xlab, ylab=ylab, xaxs="i", yaxs="i", axes=axes, asp=asp)
+
+	if(inherits(map, "sf")){
+		if(!is.null(map$geometry)){
+			map <- map$geometry
+		}
+	}
+
 	# plot maps
 	map.args$x <- map
 	map.args$add <- TRUE
 	if(!is.null(map)){
-		if(requireNamespace("chronosphere", quietly=TRUE)){
-			if(class(map)=="RasterLayer"){
-				map.args$col <- "earth"
-				if(!any("legend"==names(map.args))) map.args$legend <- FALSE
-			}
-			do.call(mapplot, map.args)
-		}else{
 			do.call(plot, map.args)
-		}
 	}
 
 	if(is.finite(fademap)){
@@ -179,27 +178,3 @@ bgplot<-function(bdat, map=NULL, lng=NULL, lat=NULL,  colors=NULL, labels=NULL, 
 	}
 }
 
-#' #' Pseudo generic function to plot maps of different object classes - will be in earthhist!!
-#' #' 
-#' #' This function plots the different paleo
-#' #' 
-#' #' @param x Object to be plotted 
-#' #' @param legend (\code{logical}) Triggers whether the legend of a RasterLayer would be plotted.
-#' #' @export
-#' mapplot<-function(x,legend=FALSE, ...){
-#' 	if(class(x)=="RasterLayer"){
-#' 		plot(x,legend=legend, ...)
-#' 	}
-#' 	if(class(x)=="RasterStack"){
-#' 		plotRGB(x,...)
-#' 	}
-#' 
-#' 	if(class(x)=="RasterArray"){
-#' 		plotRGB(x@stack,...)
-#' 	}
-#' 
-#' 
-#' 	if(class(x)=="SpatialPolygonsDataFrame" | class(x)=="SpatialPolygons"){
-#' 		plot(x,...)
-#' 	}
-#' }

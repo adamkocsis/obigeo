@@ -1,13 +1,14 @@
+# Example script to use the package
 # load the packages
 library(icosa)
-library(rgdal)
+library(chronosphere)
 
 # under development package
 library(obigeo)
 
 data(ceno6)
 
-gr<- hexagrid(c(4,3), sp=T)
+gr<- hexagrid(c(4,3), sf=T)
 
 # basic examples using networks
 	oneC6 <- bgpart(ceno6,bin=NULL, tax="trinomen", cell="icos", ocq=10, base="network", method="infomap")
@@ -15,10 +16,7 @@ gr<- hexagrid(c(4,3), sp=T)
 	tracingC6 <- bgpart(ceno6,bin="stg", tax="trinomen", cell="icos", ocq=10, base="network", method="infomap", tracing=TRUE)
 
 	# to show how mpas are used
-		file <- system.file("extdata", "land_polygons_z1.shx", package = "icosa")
-		# read in the shape file
-		wo <- readOGR(file, "land_polygons_z1")
-		land <- spTransform(wo, CRS(" +proj=longlat"))
+		land <- fetch("NaturalEarth", "land")
 	
 	# plot the results of a single partitioning
 	bgplot(oneC6, map=land, icosa=gr, colors="col", labels="grouping")
@@ -26,7 +24,7 @@ gr<- hexagrid(c(4,3), sp=T)
 	# for plotting the tracing results
 	par(mfrow=c(3,1))
 	allStage <- unique(tracingC6$stg)
-	for(i in 2:length(allStage)){
+	for(i in 1:length(allStage)){
 		onePart <- tracingC6[tracingC6$stg==allStage[i], ]
 		bgplot(onePart, map=land, icosa=gr, colors="col", labels="grouping", cell="icos")
 	}
@@ -44,7 +42,7 @@ gr<- hexagrid(c(4,3), sp=T)
 	oneClust <- bgpart(ceno6,bin=NULL, tax="clgen", cell="icos", ocq=10, base="distance", dist="jaccard", method="average", plot=TRUE, kgs=TRUE)
 	bgplot(map=land, oneClust, icosa=gr, colors="col", labels="grouping")
 
-	# cut dendrogram to form 10 groups
+	# cut dendrogram to form 10 groups (h=0.96)
 	oneClust <- bgpart(ceno6,bin=NULL, tax="clgen", cell="icos", ocq=10, base="distance", dist="jaccard", method="average", plot=TRUE, kgs=FALSE, h=0.96)
 	bgplot(map=land, oneClust, icosa=gr, colors="col", labels="grouping")
 

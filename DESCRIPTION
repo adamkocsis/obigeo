@@ -1,17 +1,16 @@
 Package: obigeo
 Type: Package
 Title: Occurrence-based biogeography
-Version: 0.2.2
+Version: 0.3.0
 Author: Ádám T. Kocsis
 Maintainer: Ádám T. Kocsis <adam.t.kocsis@gmail.com>
-Description: The purpose of the package is to allow the quick calculation of biogeographic variables from occurrence-based datasets. Biogeographic partitioning methods based on network and compositional similarity are implemented to calculate objective single time-slice and time-tracable biogeographic realms. Additional functinos are implemented to calculate patterns of geographic ranges and endemism statistics. 
+Description: The purpose of the package is to allow the quick calculation of biogeographic variables from occurrence-record datasets. Biogeographic partitioning methods based on network and compositional similarity are implemented to calculate objective single time-slice and time-tracable biogeographic realms. Additional functinos are implemented to calculate patterns of geographic ranges and endemism statistics.
 License: Creative Commons BY 4.0
-Date: 2021-05-04
+Date: 2024-10-04
 Imports:
 	Rcpp,
 	igraph,
-	vegan,
-	chronosphere
+	vegan
 Depends:
 	R (>= 3.5.0)
 Encoding: UTF-8
